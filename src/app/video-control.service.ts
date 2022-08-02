@@ -11,7 +11,7 @@ export class VideoControlService {
     }
 
     window.onYouTubeIframeAPIReady = () => {
-      this.player = this.newVideo('SY3FTREdVs0');
+      //this.player = this.newVideo('SY3FTREdVs0');
     };
   }
 
