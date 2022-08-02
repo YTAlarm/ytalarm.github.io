@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { YoutubeIframeComponent } from './youtube-iframe/youtube-iframe.component';
+import { OverlayComponent } from './overlay/overlay.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    YoutubeIframeComponent
+    YoutubeIframeComponent,
+    OverlayComponent
   ],
   imports: [
     BrowserModule

@@ -1,0 +1,30 @@
+.overlay
+    width: 100vw
+    height: 100vh
+    position: absolute
+    top: 0
+    left: 0
+    pointer-events: none
+    color: white
+    text-shadow: 0px 0px 4px black
+    .overlay-button-container
+        position: absolute
+        width: 100vw
+        height: 100vh
+        top: 0
+        left: 0
+        pointer-events: none
+        display: flex
+        button
+            pointer-events: auto
+            margin: auto
+            
+    .overlay-display-container
+        width: 100vw
+        height: 100vh
+        display: flex
+        align-items: flex-end
+        
+        & > div
+            flex: 1
+            padding: 0 40px 40px

@@ -1,0 +1,16 @@
+<div class="overlay">
+  <div class="overlay-button-container">
+    <button (click)="setAlarm()">Set Alarm</button>
+  </div>
+  <div class="overlay-display-container">
+    <div>
+      <h2>
+        {{ date | date: "HH:mm" }}
+      </h2>
+      <h3>
+        {{ date | date: "EEEE, MMMM d" }}
+      </h3>
+    </div>
+    <div></div>
+  </div>
+</div>
