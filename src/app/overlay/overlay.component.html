@@ -1,4 +1,4 @@
-<div class="overlay">
+<ng-container *ngIf="!settingsService.isOpen; else elseBlock">
   <div class="overlay-button-container">
     <button (click)="setAlarm()">Set Alarm</button>
   </div>
@@ -13,4 +13,7 @@
     </div>
     <div></div>
   </div>
-</div>
+</ng-container>
+<ng-template #elseBlock>
+  <app-settings></app-settings>
+</ng-template>

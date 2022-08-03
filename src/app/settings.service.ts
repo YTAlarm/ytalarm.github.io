@@ -6,11 +6,23 @@ import { map, interval, Observable } from 'rxjs';
 })
 export class SettingsService {
   date: Observable<Date>;
+  isOpen: boolean;
+
   constructor() {
     this.date = interval(1000).pipe(
       map(() => {
         return new Date();
       })
     );
+
+    this.isOpen = false;
+  }
+
+  openSettings() {
+    this.isOpen = true;
+  }
+
+  closeSettings() {
+    this.isOpen = false;
   }
 }

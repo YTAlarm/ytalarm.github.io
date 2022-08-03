@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverlayComponent implements OnInit {
   date: Date;
-  constructor(private settingsService: SettingsService) {
+  constructor(public settingsService: SettingsService) {
     this.date = new Date();
   }
 
@@ -19,6 +19,6 @@ export class OverlayComponent implements OnInit {
   }
 
   setAlarm() {
-    console.log('Setting alarm');
+    this.settingsService.openSettings();
   }
 }
