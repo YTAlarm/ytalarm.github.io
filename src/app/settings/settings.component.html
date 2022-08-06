@@ -1,1 +1,52 @@
-settings works!
+<div class="settings-container">
+  <div class="settings-control-container">
+    <div class="settings-input-container">
+      <input
+        [owlDateTimeTrigger]="dt"
+        [owlDateTime]="dt"
+        [(ngModel)]="time"
+        name="date"
+        class="time-input"
+        placeholder="Set time"
+        required
+      />
+      <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
+
+      <form #videoForm="ngForm" class="video-input-container">
+        <input type="text" placeholder="Video link or id" />
+        <button class="default-button" type="submit">Add video</button>
+      </form>
+    </div>
+    <div cdkDropListGroup class="video-list-container">
+      <div
+        cdkDropList
+        [cdkDropListData]="videoList"
+        class="video-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="video-listitem" *ngFor="let video of videoList" cdkDrag>
+          <img
+            class="video-thumbnail"
+            [src]="video.thumbnailUrl"
+            alt="thumbnail"
+          />
+          <div class="video-title-container">
+            <p class="video-title">{{ video.title }}</p>
+          </div>
+          <img
+            class="video-remove"
+            src="assets/controls/remove.svg"
+            alt="remove item"
+            class="video-remove"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <form #alarmForm="ngForm" (ngSubmit)="setAlarm()">
+      <button class="submit-alarm-button" type="submit">Set Alarm</button>
+    </form>
+  </div>
+</div>

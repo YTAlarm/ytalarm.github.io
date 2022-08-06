@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverlayComponent implements OnInit {
   date: Date;
+
   constructor(public settingsService: SettingsService) {
     this.date = new Date();
   }
