@@ -38,7 +38,7 @@ export class TimeRemainingPipe implements PipeTransform {
   }
 
   getSeconds(time: number): number {
-    return Math.floor((time % this.minute) / this.second);
+    return Math.ceil((time % this.minute) / this.second);
   }
 
   addPlural(num: number, str: string): string {
