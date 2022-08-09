@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VideoControlService } from './../video-control.service';
+import { VideoControlService } from '../services/video-control.service';
 
 @Component({
   selector: 'app-youtube-iframe',

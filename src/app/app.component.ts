@@ -1,4 +1,4 @@
-import { RandomBackgroundService } from './random-background.service';
+import { RandomBackgroundService } from './services/random-background.service';
 import { Component } from '@angular/core';
 
 @Component({
