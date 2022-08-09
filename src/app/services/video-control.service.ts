@@ -1,6 +1,5 @@
 import { VideoMetadata } from './settings.service';
 import { Injectable } from '@angular/core';
-import { timer, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +8,7 @@ export class VideoControlService {
   constructor() {}
 
   player?: YT.Player;
-  timeout?: Subscription;
+
   playlist: VideoMetadata[] = [];
   counter: number = 0;
 
@@ -31,16 +30,14 @@ export class VideoControlService {
     });
   }
 
-  public setTimeout(date: Date, playlist: VideoMetadata[]) {
-    this.timeout?.unsubscribe();
+  public play(playlist: VideoMetadata[]) {
     this.playlist = playlist;
-    this.timeout = timer(date).subscribe(() => this.loopVideos());
     this.counter = 0;
+    this.loopVideos();
   }
 
   public destroyPlayer() {
     this.player?.destroy();
-    this.timeout?.unsubscribe();
     this.player = undefined;
   }
 

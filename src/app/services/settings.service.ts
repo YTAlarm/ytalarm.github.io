@@ -1,6 +1,6 @@
 import { VideoControlService } from './video-control.service';
 import { Injectable } from '@angular/core';
-import { map, interval, Observable } from 'rxjs';
+import { map, interval, Observable, Subscription, timer } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from './utils.service';
@@ -54,9 +54,12 @@ export class SettingsService {
     new VideoMetadata('bxYhJpILIQE', this.http, this.removeVideo.bind(this)),
   ];
   public alarmDate?: Date;
+  timeout?: Subscription;
+  day: number = 1000 * 60 * 60 * 24;
 
   openSettings() {
     this.isOpen = true;
+    this.timeout?.unsubscribe();
     this.videoControl.destroyPlayer();
   }
 
@@ -67,8 +70,19 @@ export class SettingsService {
   setAlarm() {
     if (this.alarmDate && this.playlist.length) {
       this.closeSettings();
-      this.videoControl.setTimeout(this.alarmDate, this.playlist);
+      this.timeout?.unsubscribe();
+      this.timeout = timer(this.alarmDate).subscribe(() =>
+        this.videoControl.play(this.playlist)
+      );
     }
+  }
+
+  setAlarmDate(date: Date) {
+    const now = new Date().getTime();
+    const alarmDate = date.getTime();
+    const difference = Math.abs(alarmDate - now);
+    const remainder = difference % this.day;
+    this.alarmDate = new Date(now + remainder);
   }
 
   addVideo(input: string) {
