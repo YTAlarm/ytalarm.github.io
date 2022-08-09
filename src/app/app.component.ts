@@ -1,3 +1,4 @@
+import { SettingsService } from './services/settings.service';
 import { RandomBackgroundService } from './services/random-background.service';
 import { Component } from '@angular/core';
 
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ytalarm';
-  constructor(private randomBackgroundService: RandomBackgroundService) {}
+  constructor(
+    private randomBackgroundService: RandomBackgroundService,
+    public settings: SettingsService
+  ) {}
 }

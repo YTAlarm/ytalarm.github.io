@@ -1,4 +1,4 @@
-<ng-container *ngIf="!settingsService.isOpen; else elseBlock">
+<ng-container *ngIf="!settingsService.isOpen">
   <div class="overlay-upper-container">
     <div class="overlay-upper-content" *ngIf="!settingsService.alarmPlaying">
       <ng-container *ngIf="!settingsService.alarmDate; else changeAlarm">
@@ -29,6 +29,3 @@
     </div>
   </div>
 </ng-container>
-<ng-template #elseBlock>
-  <app-settings></app-settings>
-</ng-template>
