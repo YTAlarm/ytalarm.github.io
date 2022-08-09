@@ -1,17 +1,32 @@
 <ng-container *ngIf="!settingsService.isOpen; else elseBlock">
-  <div class="overlay-button-container">
-    <button class="default-button" (click)="setAlarm()">Set Alarm</button>
+  <div class="overlay-upper-container">
+    <div class="overlay-upper-content" *ngIf="!settingsService.alarmPlaying">
+      <ng-container *ngIf="!settingsService.alarmDate; else changeAlarm">
+        <button class="default-button" (click)="setAlarm()">Set Alarm</button>
+      </ng-container>
+
+      <ng-template #changeAlarm>
+        <ng-container *ngIf="remaining">
+          <button class="default-button" (click)="setAlarm()">
+            Change Alarm
+          </button>
+          <h5>Alarm in {{ this.remaining | timeRemaining }}</h5>
+        </ng-container>
+      </ng-template>
+    </div>
   </div>
-  <div class="overlay-display-container">
+  <div class="overlay-clock-container">
     <div>
       <h2>
         {{ date | date: "HH:mm" }}
       </h2>
       <h3>
-        {{ date | date: "EEEE, MMMM d" }}
+        {{ date | date: "EEEE, " }}
+        <span class="nowrap">
+          {{ date | date: "MMMM d" }}
+        </span>
       </h3>
     </div>
-    <div></div>
   </div>
 </ng-container>
 <ng-template #elseBlock>

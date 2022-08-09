@@ -6,8 +6,8 @@
     left: 0
     pointer-events: none
     color: white
-    text-shadow: 0px 0px 4px black
-    .overlay-button-container
+    text-shadow: 0px 0px 5px black
+    .overlay-upper-container
         position: absolute
         width: 100vw
         height: 100vh
@@ -17,14 +17,35 @@
         display: flex
         button
             pointer-events: auto
+
+        .overlay-upper-content
             margin: auto
+            display: inline-block
             
-    .overlay-display-container
+    .overlay-clock-container
         width: 100vw
         height: 100vh
         display: flex
         align-items: flex-end
+        flex: 1
+        padding: 0 40px 60px
+        box-sizing: border-box
         
-        & > div
-            flex: 1
-            padding: 0 40px 40px
+            
+
+    .overlay-controls
+        display: flex
+        flex-direction: column
+        justify-content: right
+        .default-button
+            pointer-events: auto
+            margin-left: auto
+
+    @media only screen and (max-width: 600px)
+        .overlay-upper-content
+            margin: 20px auto !important
+        .overlay-clock-container
+            h2
+                font-size: 40px
+            h3
+                font-size: 14px

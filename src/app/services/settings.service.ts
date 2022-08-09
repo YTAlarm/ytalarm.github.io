@@ -46,14 +46,15 @@ export class SettingsService {
     );
   }
 
-  currentDate$: Observable<Date>;
-  isOpen: boolean = false;
+  public alarmDate?: Date;
+  public alarmPlaying: boolean = false;
+  public currentDate$: Observable<Date>;
+  public isOpen: boolean = false;
   playlist: VideoMetadata[] = [
     new VideoMetadata('k4Xx0k_TVY0', this.http, this.removeVideo.bind(this)),
     new VideoMetadata('xsRPz9PF1EE', this.http, this.removeVideo.bind(this)),
     new VideoMetadata('bxYhJpILIQE', this.http, this.removeVideo.bind(this)),
   ];
-  public alarmDate?: Date;
   timeout?: Subscription;
   day: number = 1000 * 60 * 60 * 24;
 
@@ -67,13 +68,21 @@ export class SettingsService {
     this.isOpen = false;
   }
 
+  cleanUp() {
+    this.timeout?.unsubscribe();
+    this.videoControl.destroyPlayer();
+    this.alarmDate = undefined;
+    this.alarmPlaying = false;
+  }
+
   setAlarm() {
     if (this.alarmDate && this.playlist.length) {
       this.closeSettings();
       this.timeout?.unsubscribe();
-      this.timeout = timer(this.alarmDate).subscribe(() =>
-        this.videoControl.play(this.playlist)
-      );
+      this.timeout = timer(this.alarmDate).subscribe(() => {
+        this.videoControl.createPlayer(this.playlist, this.cleanUp.bind(this));
+        this.alarmPlaying = true;
+      });
     }
   }
 
