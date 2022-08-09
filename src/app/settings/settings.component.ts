@@ -4,12 +4,9 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-
-type VideoMetadata = {
-  title: string;
-  thumbnailUrl: string;
-  id: string;
-};
+import { FormBuilder } from '@angular/forms';
+import { SettingsService } from '../services/settings.service';
+import { VideoMetadata } from '../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -17,36 +14,31 @@ type VideoMetadata = {
   styleUrls: ['./settings.component.sass'],
 })
 export class SettingsComponent implements OnInit {
-  time?: Date;
-  videoList = [
-    {
-      title: 'La Caution - Thé à la Menthe - The Laser Dance Song',
-      thumbnailUrl: 'https://i.ytimg.com/vi/k4Xx0k_TVY0/hqdefault.jpg',
-      id: 'k4Xx0k_TVY0',
-    },
-    {
-      title: 'La Caution - Thé à la Menthe - The Laser Dance Song',
-      thumbnailUrl: 'https://i.ytimg.com/vi/k4Xx0k_TVY0/hqdefault.jpg',
-      id: 'k4Xx0k_TVY0',
-    },
-    {
-      title: 'La Caution - Thé à la Menthe - The Laser Dance Song',
-      thumbnailUrl: 'https://i.ytimg.com/vi/k4Xx0k_TVY0/hqdefault.jpg',
-      id: 'k4Xx0k_TVY0',
-    },
-    {
-      title:
-        'La Caution - Thé à la Menthe - The Laser Dance SongLa Caution - Thé à la Menthe - The Laser Dance Song',
-      thumbnailUrl: 'https://i.ytimg.com/vi/k4Xx0k_TVY0/hqdefault.jpg',
-      id: 'k4Xx0k_TVY0',
-    },
-  ];
-  constructor() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    public settings: SettingsService
+  ) {}
+
+  videoIdForm = this.formBuilder.group({
+    videoId: '',
+  });
 
   ngOnInit(): void {}
 
   setAlarm() {
-    console.log(this.time);
+    this.settings.setAlarm();
+  }
+
+  addVideo() {
+    if (this.videoIdForm.value.videoId) {
+      this.settings.addVideo(this.videoIdForm.value.videoId);
+    }
+
+    this.videoIdForm.reset();
+  }
+
+  removeVideo(id: string) {
+    this.settings.removeVideo(id);
   }
 
   drop(event: CdkDragDrop<VideoMetadata[]>) {

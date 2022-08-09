@@ -4,7 +4,8 @@
       <input
         [owlDateTimeTrigger]="dt"
         [owlDateTime]="dt"
-        [(ngModel)]="time"
+        [ngModel]="settings.alarmDate"
+        (ngModelChange)="settings.setAlarmDate($event)"
         name="date"
         class="time-input"
         placeholder="Set time"
@@ -12,19 +13,32 @@
       />
       <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
 
-      <form #videoForm="ngForm" class="video-input-container">
-        <input type="text" placeholder="Video link or id" />
+      <form
+        [formGroup]="videoIdForm"
+        class="video-input-container"
+        (ngSubmit)="addVideo()"
+      >
+        <input
+          type="text"
+          placeholder="Video link or id"
+          id="videoId"
+          formControlName="videoId"
+        />
         <button class="default-button" type="submit">Add video</button>
       </form>
     </div>
     <div cdkDropListGroup class="video-list-container">
       <div
         cdkDropList
-        [cdkDropListData]="videoList"
+        [cdkDropListData]="settings.playlist"
         class="video-list"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="video-listitem" *ngFor="let video of videoList" cdkDrag>
+        <div
+          class="video-listitem"
+          *ngFor="let video of settings.playlist"
+          cdkDrag
+        >
           <img
             class="video-thumbnail"
             [src]="video.thumbnailUrl"
@@ -38,6 +52,7 @@
             src="assets/controls/remove.svg"
             alt="remove item"
             class="video-remove"
+            (click)="removeVideo(video.id)"
           />
         </div>
       </div>
