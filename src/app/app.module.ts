@@ -16,6 +16,7 @@ import {
   OWL_DATE_TIME_FORMATS,
 } from 'ng-pick-datetime';
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     OverlayComponent,
     SettingsComponent,
     TimeRemainingPipe,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

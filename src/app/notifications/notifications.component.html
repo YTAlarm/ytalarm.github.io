@@ -1,0 +1,11 @@
+<div>
+  <div
+    [class.success]="notification.type === 'success'"
+    [class.error]="notification.type === 'error'"
+    class="notification"
+    *ngFor="let notification of notificationService.notifications"
+    (click)="notification.remove()"
+  >
+    {{ notification.message }}
+  </div>
+</div>

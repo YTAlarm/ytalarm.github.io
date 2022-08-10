@@ -1,0 +1,27 @@
+:host
+    min-height: 100vh
+    width: 100%
+    position: absolute
+    top: 0
+    left: 0
+    color: white
+    display: flex
+    align-items: flex-end
+    justify-content: right
+    padding-bottom: 10px
+    padding-right: 10px
+    pointer-events: none
+    .notification
+        padding: 10px
+        background-color: black
+        margin: 5px
+        width: 200px
+        font-size: 14px
+        border-radius: 5px
+        cursor: pointer
+        pointer-events: auto
+
+        &.success
+            background-color: #277a12
+        &.error
+            background-color: #9e2605

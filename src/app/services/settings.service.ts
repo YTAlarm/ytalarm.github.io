@@ -1,3 +1,4 @@
+import { NotificationsService } from './notifications.service';
 import { VideoControlService } from './video-control.service';
 import { Injectable } from '@angular/core';
 import { map, interval, Observable, Subscription, timer } from 'rxjs';
@@ -6,7 +7,12 @@ import { HttpClient } from '@angular/common/http';
 import { UtilsService } from './utils.service';
 
 export class VideoMetadata {
-  constructor(videoId: string, http: HttpClient, removeVideo: Function) {
+  constructor(
+    videoId: string,
+    http: HttpClient,
+    removeVideo: Function,
+    addNotification: Function
+  ) {
     http
       .get(
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
@@ -17,8 +23,12 @@ export class VideoMetadata {
           this.title = data.title;
         },
         error: (error) => {
-          console.log(error);
           removeVideo(this.id);
+          addNotification(
+            `Video ${this.videoId} failed to load.`,
+            'error',
+            5000
+          );
         },
       });
     this.videoId = videoId;
@@ -37,7 +47,8 @@ export class SettingsService {
   constructor(
     private videoControl: VideoControlService,
     private http: HttpClient,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private notificationsService: NotificationsService
   ) {
     this.currentDate$ = interval(1000).pipe(
       map(() => {
@@ -51,9 +62,24 @@ export class SettingsService {
   public currentDate$: Observable<Date>;
   public isOpen: boolean = false;
   playlist: VideoMetadata[] = [
-    new VideoMetadata('k4Xx0k_TVY0', this.http, this.removeVideo.bind(this)),
-    new VideoMetadata('xsRPz9PF1EE', this.http, this.removeVideo.bind(this)),
-    new VideoMetadata('bxYhJpILIQE', this.http, this.removeVideo.bind(this)),
+    new VideoMetadata(
+      'k4Xx0k_TVY0',
+      this.http,
+      this.removeVideo.bind(this),
+      this.notificationsService.addNotification.bind(this.notificationsService)
+    ),
+    new VideoMetadata(
+      'xsRPz9PF1EE',
+      this.http,
+      this.removeVideo.bind(this),
+      this.notificationsService.addNotification.bind(this.notificationsService)
+    ),
+    new VideoMetadata(
+      'bxYhJpILIQE',
+      this.http,
+      this.removeVideo.bind(this),
+      this.notificationsService.addNotification.bind(this.notificationsService)
+    ),
   ];
   timeout?: Subscription;
   day: number = 1000 * 60 * 60 * 24;
@@ -88,6 +114,21 @@ export class SettingsService {
         this.videoControl.createPlayer(this.playlist, this.cleanUp.bind(this));
         this.alarmPlaying = true;
       });
+      this.notificationsService.addNotification(
+        'Alarm set successfully.',
+        'success'
+      );
+    } else {
+      if (!this.alarmDate) {
+        this.notificationsService.addNotification(
+          'Set an alarm date.',
+          'error',
+          5000
+        );
+      }
+      if (!this.playlist.length) {
+        this.notificationsService.addNotification('Add a song.', 'error', 5000);
+      }
     }
   }
 
@@ -104,7 +145,10 @@ export class SettingsService {
       new VideoMetadata(
         this.utils.youtubeVideoIdFromUrl(input),
         this.http,
-        this.removeVideo.bind(this)
+        this.removeVideo.bind(this),
+        this.notificationsService.addNotification.bind(
+          this.notificationsService
+        )
       )
     );
   }
