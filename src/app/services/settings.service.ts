@@ -75,6 +75,11 @@ export class SettingsService {
     this.alarmPlaying = false;
   }
 
+  cancel() {
+    this.cleanUp();
+    this.closeSettings();
+  }
+
   setAlarm() {
     if (this.alarmDate && this.playlist.length) {
       this.closeSettings();
