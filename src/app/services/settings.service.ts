@@ -133,11 +133,21 @@ export class SettingsService {
   }
 
   setAlarmDate(date: Date) {
-    const now = new Date().getTime();
-    const alarmDate = date.getTime();
-    const difference = Math.abs(alarmDate - now);
-    const remainder = difference % this.day;
-    this.alarmDate = new Date(now + remainder);
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const day = currentDate.getDate();
+
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+
+    const newDate = new Date(year, month, day, hour, minutes);
+
+    this.alarmDate =
+      newDate.getTime() < currentDate.getTime()
+        ? new Date(newDate.getTime() + this.day)
+        : newDate;
   }
 
   addVideo(input: string) {
