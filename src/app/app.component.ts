@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
-  title = 'ytalarm';
   constructor(
     private randomBackgroundService: RandomBackgroundService,
     public settings: SettingsService
