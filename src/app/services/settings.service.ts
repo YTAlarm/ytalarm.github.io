@@ -21,6 +21,7 @@ export class VideoMetadata {
         next: (data: any) => {
           this.thumbnailUrl = data.thumbnail_url;
           this.title = data.title;
+          this.loaded = true;
         },
         error: (error) => {
           removeVideo(this.id);
@@ -38,6 +39,7 @@ export class VideoMetadata {
   videoId: string;
   title = 'Loading...';
   id = uuidv4();
+  loaded: boolean = false;
 }
 
 @Injectable({
@@ -55,32 +57,51 @@ export class SettingsService {
         return new Date();
       })
     );
+
+    let localStorageValue = localStorage.getItem('playlist');
+    const playlist = localStorageValue ? JSON.parse(localStorageValue) : false;
+    if (this.utils.validPlaylist(playlist)) {
+      this.playlist = playlist.map((video: VideoMetadata) => {
+        if (!video.loaded) {
+          return new VideoMetadata(
+            video.videoId,
+            this.http,
+            this.removeVideo.bind(this),
+            this.notificationsService.addNotification.bind(
+              this.notificationsService
+            )
+          );
+        }
+
+        return video;
+      });
+    } else {
+      this.playlist = [
+        'w8mCuo0A6XM',
+        'r_iivxDgGBs',
+        'IKFuaExJ-EI',
+        'Kp2eJxdT_AU',
+      ].map(
+        (videoId) =>
+          new VideoMetadata(
+            videoId,
+            this.http,
+            this.removeVideo.bind(this),
+            this.notificationsService.addNotification.bind(
+              this.notificationsService
+            )
+          )
+      );
+
+      localStorage.setItem('playlist', JSON.stringify(this.playlist));
+    }
   }
 
   public alarmDate?: Date;
   public alarmPlaying: boolean = false;
   public currentDate$: Observable<Date>;
   public isOpen: boolean = false;
-  playlist: VideoMetadata[] = [
-    new VideoMetadata(
-      'k4Xx0k_TVY0',
-      this.http,
-      this.removeVideo.bind(this),
-      this.notificationsService.addNotification.bind(this.notificationsService)
-    ),
-    new VideoMetadata(
-      'xsRPz9PF1EE',
-      this.http,
-      this.removeVideo.bind(this),
-      this.notificationsService.addNotification.bind(this.notificationsService)
-    ),
-    new VideoMetadata(
-      'bxYhJpILIQE',
-      this.http,
-      this.removeVideo.bind(this),
-      this.notificationsService.addNotification.bind(this.notificationsService)
-    ),
-  ];
+  playlist: VideoMetadata[] = [];
   timeout?: Subscription;
   day: number = 1000 * 60 * 60 * 24;
 
@@ -161,11 +182,14 @@ export class SettingsService {
         )
       )
     );
+
+    localStorage.setItem('playlist', JSON.stringify(this.playlist));
   }
 
   removeVideo(id: string) {
     this.playlist = this.playlist.filter(
       (videoMetadata) => videoMetadata.id !== id
     );
+    localStorage.setItem('playlist', JSON.stringify(this.playlist));
   }
 }
