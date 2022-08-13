@@ -95,6 +95,11 @@ export class SettingsService {
 
       localStorage.setItem('playlist', JSON.stringify(this.playlist));
     }
+
+    const storedDate = Number(localStorage.getItem('alarmTime'));
+    if (storedDate) {
+      this.setAlarmDate(new Date(storedDate));
+    }
   }
 
   public alarmDate?: Date;
@@ -139,6 +144,8 @@ export class SettingsService {
         'Alarm set successfully.',
         'success'
       );
+
+      localStorage.setItem('alarmTime', String(this.alarmDate.getTime()));
     } else {
       if (!this.alarmDate) {
         this.notificationsService.addNotification(
