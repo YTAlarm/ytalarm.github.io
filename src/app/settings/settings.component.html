@@ -63,7 +63,8 @@
         </div>
       </div>
     </div>
-    <form #alarmForm="ngForm" (ngSubmit)="setAlarm()">
+    <form #alarmForm="ngForm" (ngSubmit)="setAlarm()" class="submit-container">
+      <button class="cancel" (click)="settings.cancel()">X</button>
       <button class="submit-alarm-button" type="submit">Set Alarm</button>
     </form>
   </div>
