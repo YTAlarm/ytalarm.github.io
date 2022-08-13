@@ -1,32 +1,38 @@
-<div class="settings-container">
-  <div class="settings-control-container">
-    <div class="settings-input-container">
-      <input
-        [owlDateTimeTrigger]="dt"
-        [owlDateTime]="dt"
-        [ngModel]="settings.alarmDate"
-        (ngModelChange)="settings.setAlarmDate($event)"
-        name="date"
-        class="time-input"
-        placeholder="Set time"
-        required
-      />
-      <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
+<div class="settings-content-container">
+  <input
+    [owlDateTimeTrigger]="dt"
+    [owlDateTime]="dt"
+    [ngModel]="settings.alarmDate"
+    (ngModelChange)="settings.setAlarmDate($event)"
+    name="date"
+    class="time-input"
+    placeholder="Set time"
+    autofocus
+    required
+  />
 
-      <form
-        [formGroup]="videoIdForm"
-        class="video-input-container"
-        (ngSubmit)="addVideo()"
-      >
-        <input
-          type="text"
-          placeholder="Video link or id"
-          id="videoId"
-          formControlName="videoId"
-        />
-        <button class="default-button" type="submit">Add video</button>
-      </form>
-    </div>
+  <owl-date-time [pickerType]="'timer'" #dt></owl-date-time>
+  <div class="arrow-container">
+    <a href="#settings-playlist">
+      <div class="arrow"></div>
+    </a>
+  </div>
+</div>
+<div class="settings-content-container" id="settings-playlist">
+  <div>
+    <form
+      [formGroup]="videoIdForm"
+      class="video-input-container"
+      (ngSubmit)="addVideo()"
+    >
+      <input
+        type="text"
+        placeholder="Video link or id"
+        id="videoId"
+        formControlName="videoId"
+      />
+      <button class="default-button" type="submit">Add</button>
+    </form>
     <div cdkDropListGroup class="video-list-container">
       <div
         cdkDropList
@@ -57,21 +63,8 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div>
     <form #alarmForm="ngForm" (ngSubmit)="setAlarm()">
-      <button class="settings-button submit-alarm-button" type="submit">
-        Set Alarm
-      </button>
+      <button class="submit-alarm-button" type="submit">Set Alarm</button>
     </form>
-  </div>
-  <div>
-    <button
-      class="settings-button cancel-alarm-button"
-      (click)="settings.cancel()"
-    >
-      Cancel
-    </button>
   </div>
 </div>
