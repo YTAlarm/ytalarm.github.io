@@ -100,7 +100,7 @@ export class SettingsService {
   public alarmDate?: Date;
   public alarmPlaying: boolean = false;
   public currentDate$: Observable<Date>;
-  public isOpen: boolean = false;
+  public isOpen: boolean = true;
   playlist: VideoMetadata[] = [];
   timeout?: Subscription;
   day: number = 1000 * 60 * 60 * 24;
