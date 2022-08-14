@@ -21,9 +21,11 @@ export class RandomBackgroundService {
   }
 
   private setBackground() {
-    document.body.style.backgroundImage = `url("${
-      this.baseRoute
-    }${this.randomImageName()}")`;
+    let route = this.baseRoute;
+    if (window.innerWidth <= 800) {
+      route += 'small/';
+    }
+    document.body.style.backgroundImage = `url("${route}${this.randomImageName()}")`;
   }
 
   constructor() {
